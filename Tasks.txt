@@ -1,0 +1,29 @@
+// Fetch data from REST Countries API
+fetch('https://restcountries.com/v3.1/all')
+    .then(response => response.json())
+    .then(data => {
+        // Problem 1: Get all the countries from Asia continent / region using Filter method
+        const asiaCountries = data.filter(country => country.region === 'Asia');
+        console.log("Countries in Asia:", asiaCountries.map(country => country.name.common));
+
+        // Problem 2: Get all the countries with a population of less than 2 lakhs (200,000) using Filter method
+        const countriesWithLowPopulation = data.filter(country => country.population < 200000);
+        console.log("Countries with population less than 200,000:", countriesWithLowPopulation.map(country => country.name.common));
+
+        // Problem 3: Print the following details name, capital, flag, using forEach method
+        console.log("Details of countries - name, capital, flag:");
+        data.forEach(country => {
+            console.log(`Name: ${country.name.common}, Capital: ${country.capital}, Flag: ${country.flags.png}`);
+        });
+
+        // Problem 4: Print the total population of countries using reduce method
+        const totalPopulation = data.reduce((acc, country) => acc + country.population, 0);
+        console.log("Total population of all countries:", totalPopulation);
+
+        // Problem 5: Print the country that uses US dollars as currency
+        const countryUsingUSD = data.find(country => {
+            return country.currencies && country.currencies.USD;
+        });
+        console.log("Country that uses US dollars:", countryUsingUSD.name.common);
+    })
+    .catch(error => console.log('Error fetching data:', error));
